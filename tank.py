@@ -35,7 +35,7 @@ class Tank(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    def move(self, newPosition):
+    def moveTo(self, newPosition):
         self.rect = newPosition
 
 if __name__ == '__main__':

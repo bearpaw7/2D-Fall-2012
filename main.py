@@ -11,6 +11,27 @@ from tank import Tank
 SCREEN_SIZE = [800,600]
 
 class MainWindow:
+    dx = 0
+    dy = 0
+    def userInput(self, event, tankPosition):
+        if event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
+            self.dx = 0
+        elif event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
+            self.dx = 0
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+            self.dx = -1
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+            self.dx = 1
+        if event.type == pygame.KEYUP and event.key == pygame.K_UP:
+            self.dy = 0
+        elif event.type == pygame.KEYUP and event.key == pygame.K_DOWN:
+            self.dy = 0
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+            self.dy = -1
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+            self.dy = 1
+
+    
     def __init__(self):
         print 'Initiated main window'
         
@@ -45,13 +66,14 @@ class MainWindow:
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     mainExit = True # Flag that we are done so we exit this loop
                 # FIXME Add menu system here
+                self.userInput(event, tankPosition)
             # Put the image of the text on the screen at 250x250
             screen.fill(white)
             screen.blit(text, [250,250])
             
             # update the tank position
-            tankPosition = [ (tankPosition[0] + 1), (tankPosition[1] + 1) ]
-            tank.move(tankPosition)
+            tankPosition = [tankPosition[0] + self.dx, tankPosition[1] + self.dy]
+            tank.moveTo(tankPosition)
             # paint the tank
             screen.blit(tank.image, tank.rect)
             
@@ -59,6 +81,7 @@ class MainWindow:
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()
             
+        
 if __name__ == '__main__':
     print 'Working Directory: ', os.getcwd()
     MainWindow()
