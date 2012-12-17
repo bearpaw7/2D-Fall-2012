@@ -6,6 +6,8 @@ First 2D Fall 2012 Game for TAGD Members
 
 import pygame
 import os
+import math 
+from sabot import Sabot 
 
 SCREEN_SIZE=[800,600]
 
@@ -30,10 +32,13 @@ class MainWindow:
         # letters, but does not put it on the screen
         text=font.render("Tanks - hello world",True,black)
         
+        testSabot = Sabot( 200,10, math.pi)
+        
         mainExit=False
         while mainExit==False:
             # This limits the while loop to a max of 45 times per second.
             # Leave this out and we will use all CPU we can.
+            
             clock.tick(45)
             
             for event in pygame.event.get(): # User did something
@@ -45,6 +50,7 @@ class MainWindow:
             screen.fill(white)
             screen.blit(text, [250,250])
             
+            testSabot.draw(screen)
             # Go ahead and update the screen with what we've drawn.
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()
