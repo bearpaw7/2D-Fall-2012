@@ -15,7 +15,6 @@ SCREEN_SIZE = [800,600]
 
 class MainWindow:
     sprites = pygame.sprite.Group()
-    localTank = None
     
     def userInput(self, event, tankPosition):
         if event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
@@ -31,9 +30,9 @@ class MainWindow:
         elif event.type == pygame.KEYUP and event.key == pygame.K_DOWN:
             self.dy = 0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-            self.dy = -1
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             self.dy = 1
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+            self.dy = -1
         if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
             self.dz = 0
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -91,8 +90,16 @@ class MainWindow:
             screen.blit(text, [250,250])
             
             # update the tank position
-            tankPosition = [tankPosition[0] + (self.dx * self.speed), tankPosition[1] + (self.dy * self.speed)]
-            self.localTank.moveTo(tankPosition)
+#            tankPosition = [tankPosition[0] + (self.dx * self.speed), tankPosition[1] + (self.dy * self.speed)]
+#            self.localTank.moveTo(tankPosition)
+            if self.dy > 0:
+                self.localTank.moveForward()
+            elif self.dy < 0:
+                self.localTank.moveReverse()
+            if self.dx > 0:
+                self.localTank.rotateLeft()
+            elif self.dx < 0:
+                self.localTank.rotateRight()
             # paint the tank
             screen.blit(self.localTank.image, self.localTank.rect)
             
