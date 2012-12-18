@@ -32,7 +32,7 @@ class MainWindow:
         # letters, but does not put it on the screen
         text=font.render("Tanks - hello world",True,black)
         
-        testSabot = Sabot( 200,10, math.pi)
+        testSabot = Sabot( 200,200, math.pi)
         
         mainExit=False
         while mainExit==False:
