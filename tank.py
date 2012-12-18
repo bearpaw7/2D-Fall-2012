@@ -16,7 +16,7 @@ class Tank(pygame.sprite.Sprite):
     # Singleton tank images
     RedTankImage = None
     BlueTankImage = None
-    ImageScale = [80, 80]
+    ImageScale = [50, 50]
     DegreesRotated = 5
     MoveRadius = 5
 
