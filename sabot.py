@@ -2,6 +2,7 @@
 
 wally was here.
 
+add collision detection
 '''
 
 import pygame
