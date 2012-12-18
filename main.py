@@ -70,8 +70,11 @@ class MainWindow:
         
         tankPosition = [100, 100]
         self.localTank = Tank(tankPosition, "red")
+        testDummy = Tank([400,400], "blue")
         
-        testSabot = Sabot( 200,200, math.pi)
+        self.sprites.add(testDummy)
+        
+        testSabot = Sabot(200,200, math.pi)
         
         mainExit=False
         while mainExit==False:
@@ -102,11 +105,16 @@ class MainWindow:
                 self.localTank.rotateRight()
             # paint the tank
             screen.blit(self.localTank.image, self.localTank.rect)
-            
             testSabot.draw(screen)
             self.userAttack()
             for shot in self.sprites.sprites():
                 shot.draw(screen)
+                
+#            screen.blit(testDummy.image, testDummy.rect)
+            
+            if pygame.sprite.spritecollideany(testDummy, self.sprites):
+                print 'Collide'
+                self.sprites.remove(testDummy)
             # Go ahead and update the screen with what we've drawn.
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()

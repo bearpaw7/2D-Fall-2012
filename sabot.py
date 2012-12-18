@@ -1,6 +1,6 @@
 '''
 
-wally was here.
+wally is here to add collision detection
 
 '''
 
@@ -25,8 +25,8 @@ class Sabot(pygame.sprite.Sprite):
         self.direction = radian
 
     def draw(self, screen):
-        self.rect.top += Sabot.movement * math.cos(self.direction) 
-        self.rect.left += Sabot.movement * math.sin(self.direction)
+        self.rect.top -= Sabot.movement * math.sin(self.direction) 
+        self.rect.left += Sabot.movement * math.cos(self.direction)
         
         if(self.rect.top > 0 and self.rect.bottom < screen.get_rect().bottom):
             if(self.rect.left > 0 and self.rect.right <  screen.get_rect().bottom):
