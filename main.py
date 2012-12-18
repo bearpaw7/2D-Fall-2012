@@ -15,6 +15,7 @@ SCREEN_SIZE = [800,600]
 
 class MainWindow:
     sprites = pygame.sprite.Group()
+    tanks = pygame.sprite.Group()
     
     def userInput(self, event, tankPosition):
         if event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
@@ -71,8 +72,9 @@ class MainWindow:
         tankPosition = [100, 100]
         self.localTank = Tank(tankPosition, "red")
         testDummy = Tank([400,400], "blue")
+        self.tanks.add(testDummy)
         
-        self.sprites.add(testDummy)
+#        self.sprites.add(testDummy)
         
         testSabot = Sabot(200,200, math.pi)
         
@@ -108,13 +110,21 @@ class MainWindow:
             testSabot.draw(screen)
             self.userAttack()
             for shot in self.sprites.sprites():
-                shot.draw(screen)
-                
-#            screen.blit(testDummy.image, testDummy.rect)
+               shot.draw(screen)
+             
+            for t in self.tanks.sprites():
+                t.draw(screen)   
+            #screen.blit(testDummy.image, testDummy.rect)
             
+            
+            #self.sprites.
             if pygame.sprite.spritecollideany(testDummy, self.sprites):
                 print 'Collide'
                 self.sprites.remove(testDummy)
+                collidedSabots = pygame.sprite.spritecollide(testDummy, self.sprites, True)
+                if collidedSabots.__sizeof__() > 0: 
+                    testDummy.killTank()
+                    print 'Kill Tank'
             # Go ahead and update the screen with what we've drawn.
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()
