@@ -1,13 +1,15 @@
 '''
+
 Tanks - Working Title
 First 2D Fall 2012 Game for TAGD Members
 
 '''
 
-import os, sys
+import os, sys, time
 import pygame
 from pygame.locals import *
 from math import pi, radians, cos, sin
+from sabot import Sabot
 
 if not pygame.font: print 'Warning, fonts disabled'
 if not pygame.mixer: print 'Warning, sound disabled'
@@ -19,6 +21,7 @@ class Tank(pygame.sprite.Sprite):
     ImageScale = [50, 50]
     DegreesRotated = 5
     MoveRadius = 5
+    ReloadTime = 1 # seconds
 
     def __init__(self, startPosition, joinTeam):
         pygame.sprite.Sprite.__init__(self) #initialize parent class
@@ -38,6 +41,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect.center = startPosition
         self.team = joinTeam
         self.facing = 0 # degrees
+        self.lastSabot = 0
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -88,6 +92,13 @@ class Tank(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate( Tank.RedTankImage, -degrees )
         self.rect = self.image.get_rect(center = oldCenter)
         print "angle", self.facing, ", center", self.rect.center
+    
+    def shootSabot(self):
+        if (time.time() - self.lastSabot) > Tank.ReloadTime:
+            self.lastSabot = time.time()
+            sabotAngle = -self.facing + 1170 # weird conversion from tank unit circle to sabot unit circle
+            s = Sabot(self.rect.center[0], self.rect.center[1], radians(sabotAngle))
+            return s
         
     def killTank(self):
         self.kill()
