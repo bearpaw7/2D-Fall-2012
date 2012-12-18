@@ -1,8 +1,7 @@
 '''
 
-wally was here.
+wally is here to add collision detection
 
-add collision detection
 '''
 
 import pygame
