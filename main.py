@@ -40,9 +40,9 @@ class MainWindow:
     
     def userAttack(self):
         if self.dz == 1:
-            if (time.time() - self.dzTime) > 1:
-                self.dzTime = time.time()
-                self.sprites.add(Sabot(self.localTank.rect[0], self.localTank.rect[1], math.pi))
+            s = self.localTank.shootSabot()
+            if s != None:
+                self.sprites.add( s )
     
     def __init__(self):
         print 'Initiated main window'
