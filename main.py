@@ -6,15 +6,17 @@ First 2D Fall 2012 Game for TAGD Members
 
 import pygame
 import os
-import math 
+import math
+import time
 from sabot import Sabot 
 from tank import Tank
 
 SCREEN_SIZE = [800,600]
 
 class MainWindow:
-    dx = 0
-    dy = 0
+    sprites = pygame.sprite.Group()
+    localTank = None
+    
     def userInput(self, event, tankPosition):
         if event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
             self.dx = 0
@@ -32,7 +34,16 @@ class MainWindow:
             self.dy = -1
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             self.dy = 1
-
+        if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
+            self.dz = 0
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            self.dz = 1
+    
+    def userAttack(self):
+        if self.dz == 1:
+            if (time.time() - self.dzTime) > 1:
+                self.dzTime = time.time()
+                self.sprites.add(Sabot(self.localTank.rect[0], self.localTank.rect[1], math.pi))
     
     def __init__(self):
         print 'Initiated main window'
@@ -40,7 +51,11 @@ class MainWindow:
         # Define the colors we will use in RGB format
         black = [  0,  0,  0]
         white = [255,255,255]
-        
+        self.dx = 0  # x travel
+        self.dy = 0  # y travel
+        self.dz = 0  # shot firing
+        self.dzTime = 0 # shot last fired
+        self.speed = 3 # tank speed
         pygame.init()
         screen = pygame.display.set_mode(SCREEN_SIZE)
         pygame.display.set_caption("Tanks Title") #FIXME working title
@@ -49,14 +64,14 @@ class MainWindow:
         clock = pygame.time.Clock()
         
         font = pygame.font.Font(None, 25)
-        # Render the text. "True" means anti-aliased text. 
-        # Black is the color. This creates an image of the 
+        # Render the text. "True" means anti-aliased text.
+        # Black is the color. This creates an image of the
         # letters, but does not put it on the screen
         text = font.render("Tanks - hello world", True, black)
         
         tankPosition = [100, 100]
-        tank = Tank(tankPosition, "red")
-
+        self.localTank = Tank(tankPosition, "red")
+        
         testSabot = Sabot( 200,200, math.pi)
         
         mainExit=False
@@ -76,16 +91,20 @@ class MainWindow:
             screen.blit(text, [250,250])
             
             # update the tank position
-            tankPosition = [tankPosition[0] + self.dx, tankPosition[1] + self.dy]
-            tank.moveTo(tankPosition)
+            tankPosition = [tankPosition[0] + (self.dx * self.speed), tankPosition[1] + (self.dy * self.speed)]
+            self.localTank.moveTo(tankPosition)
             # paint the tank
-            screen.blit(tank.image, tank.rect)
+            screen.blit(self.localTank.image, self.localTank.rect)
             
             testSabot.draw(screen)
+            self.userAttack()
+            for shot in self.sprites.sprites():
+                shot.draw(screen)
             # Go ahead and update the screen with what we've drawn.
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()
-            
+        
+    
 if __name__ == '__main__':
     print 'Working Directory: ', os.getcwd()
     MainWindow()

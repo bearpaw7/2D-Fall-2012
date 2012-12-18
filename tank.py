@@ -12,7 +12,7 @@ class Tank(pygame.sprite.Sprite):
     # Singleton tank images
     RedTankImage = None
     BlueTankImage = None
-    ImageScale = [100,100]
+    ImageScale = [80, 80]
 
     def __init__(self, startPosition, joinTeam):
         pygame.sprite.Sprite.__init__(self) #initialize parent class
