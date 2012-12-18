@@ -42,19 +42,36 @@ class Tank(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+    def inBounds(self, newPosition):
+        if newPosition[0] > 0 and newPosition[0] < 800:
+            if newPosition[1] > 0 and newPosition[1] < 600:
+                return True
+            return False
+        return False
+
     def moveForward(self):
-        self.rect.center = [
+        newPosition = [
                             self.rect.center[0] - Tank.MoveRadius * sin( -radians(self.facing) ) , # x position
                             self.rect.center[1] - Tank.MoveRadius * cos( radians(self.facing) )   # y position
                             ]
+        #if inBounds(newPosition):
+        if(self.inBounds(newPosition)):
+            self.rect.center = newPosition
         
     def moveReverse(self):
-        self.rect.center = [
-                            self.rect.center[0] + Tank.MoveRadius * sin( -radians(self.facing) ) , # x position
-                            self.rect.center[1] + Tank.MoveRadius * cos( radians(self.facing) )   # y position
-                            ]
+        newPosition = [
+           self.rect.center[0] + Tank.MoveRadius * sin( -radians(self.facing) ) , # x position
+           self.rect.center[1] + Tank.MoveRadius * cos( radians(self.facing) )   # y position
+        ]
         
-    def moveTo(self, newPosition):
+        if(self.inBounds(newPosition)):
+            self.rect.center = newPosition
+
+    
+    def moveTo(self, newPosition, sabot_rect):
+        # if the position is match to the bullet, given sabot's rect
+        if(self.rect == sabot_rect): 
+            self.kill()
         self.rect.center = newPosition
     
     def rotateLeft(self):
@@ -71,6 +88,9 @@ class Tank(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate( Tank.RedTankImage, -degrees )
         self.rect = self.image.get_rect(center = oldCenter)
         print "angle", self.facing, ", center", self.rect.center
+        
+    def killTank(self):
+        self.kill()
 
 if __name__ == '__main__':
     print '\'tank.py\' is not the correct startup script'
