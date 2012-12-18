@@ -6,6 +6,8 @@ First 2D Fall 2012 Game for TAGD Members
 
 import pygame
 import os
+import math 
+from sabot import Sabot 
 from tank import Tank
 
 SCREEN_SIZE = [800,600]
@@ -55,8 +57,10 @@ class MainWindow:
         tankPosition = [100, 100]
         tank = Tank(tankPosition, "red")
 
-        mainExit = False
-        while mainExit == False:
+        testSabot = Sabot( 200,200, math.pi)
+        
+        mainExit=False
+        while mainExit==False:
             # This limits the while loop to a max of 45 times per second.
             # Leave this out and we will use all CPU we can.
             clock.tick(45)
@@ -77,11 +81,11 @@ class MainWindow:
             # paint the tank
             screen.blit(tank.image, tank.rect)
             
+            testSabot.draw(screen)
             # Go ahead and update the screen with what we've drawn.
             # This MUST happen after all the other drawing commands.
             pygame.display.flip()
             
-        
 if __name__ == '__main__':
     print 'Working Directory: ', os.getcwd()
     MainWindow()
