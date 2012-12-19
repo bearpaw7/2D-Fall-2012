@@ -10,7 +10,7 @@ import math
 
 class Sabot(pygame.sprite.Sprite):
     SabotImage = None
-    ImageScale = [50, 50]
+    ImageScale = [20, 20]
     movement = 5
 
     def __init__(self, x, y, radian):
