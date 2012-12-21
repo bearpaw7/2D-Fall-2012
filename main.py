@@ -10,7 +10,7 @@ import math
 import time
 from sabot import Sabot 
 from tank import Tank
-import network
+from network import Network
 
 SCREEN_SIZE = [800,600]
 
@@ -56,7 +56,8 @@ class MainWindow:
         # Black is the color. This creates an image of the
         # letters, but does not put it on the screen
         text = font.render("Tanks - hello world", True, black)
-        localAddress = 
+        localAddress = Network.getExternalIP()
+        print localAddress
         
         tankPosition = [100, 100]
         self.localTank = Tank(tankPosition, "red")

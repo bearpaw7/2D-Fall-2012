@@ -16,6 +16,14 @@ class Network():
         if isServer == True:
             self.netSocket.bind( ('0.0.0.0', PORT) )
             self.netSocket.listen(BACKLOG)
+
+    def getExternalIP():
+        return(
+            [ip for ip in socketLib.gethostbyname_ex(
+                socket.gethostname())[2] if not ip.startswith("127.")]
+            [:1]
+        )
+
     
 if __name__ == '__main__':
     print '\'network.py\' is not the correct startup script'
