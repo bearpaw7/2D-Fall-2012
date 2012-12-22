@@ -56,16 +56,18 @@ class MainWindow:
         # Black is the color. This creates an image of the
         # letters, but does not put it on the screen
         text = font.render("Tanks - hello world", True, black)
-        localAddress = Network.getExternalIP()
-        print localAddress
+        
+        net = Network(True) # Start as server
+        localAddress = net.getExternalIP()
+        print localAddress[0]
         
         tankPosition = [100, 100]
         self.localTank = Tank(tankPosition, "red")
         
         testSabot = Sabot(200,200, math.pi)
         
-        mainExit=False
-        while mainExit==False:
+        mainExit = False
+        while mainExit == False:
             # This limits the while loop to a max of 45 times per second.
             # Leave this out and we will use all CPU we can.
             clock.tick(45)

@@ -17,10 +17,10 @@ class Network():
             self.netSocket.bind( ('0.0.0.0', PORT) )
             self.netSocket.listen(BACKLOG)
 
-    def getExternalIP():
+    def getExternalIP(self):
         return(
             [ip for ip in socketLib.gethostbyname_ex(
-                socket.gethostname())[2] if not ip.startswith("127.")]
+                socketLib.gethostname())[2] if not ip.startswith("127.")]
             [:1]
         )
 
